@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pechaydoctor/views/homepage.dart';
+//import 'package:pechaydoctor/views/homepage.dart';
+
+import 'views/home.dart';
 
 
 void main() {
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home: const Home(),
       debugShowCheckedModeBanner: false,
     );
   }
