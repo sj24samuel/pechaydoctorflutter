@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-//import 'package:tflite_flutter/tflite_flutter.dart';
-import 'package:flutter_tflite/flutter_tflite.dart';
+import 'package:tflite_flutter/tflite_flutter.dart';
+//import 'package:flutter_tflite/flutter_tflite.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -18,13 +19,26 @@ class _HomeState extends State<Home> {
   late File _image;
   //late List _output;
   final picker = ImagePicker();
+  Interpreter? interpreter;
+  List<String> labels = [];
 
   @override
   void initState() {
     super.initState();
-    //loadModel();
+    _loadModel();
+    _loadLabels();
   }
 
+  Future<void> _loadModel() async{
+    final options = InterpreterOptions();
+    const modelPath = 'assets/model_unquant.tflite';
+    interpreter = await Interpreter.fromAsset(modelPath, options: options);
+  }
+
+  Future<void> _loadLabels() async {
+    final labelTxt = await rootBundle.loadString("assets/labels.txt");
+    labels = labelTxt.split('\n');
+  }
 
   pickImage() async{
     var image = await picker.pickImage(source: ImageSource.camera);
